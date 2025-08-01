@@ -12,6 +12,7 @@ createRoot(document.getElementById('root')!).render(
       <Container>
         <App />
       </Container>
+      <Code pos={'absolute'} left={1} bottom={1}>{import.meta.env.VITE_VERSION}</Code>
       <Code
         pos={'absolute'}
         right={1}

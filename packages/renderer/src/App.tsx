@@ -1,4 +1,3 @@
-
 import { Flex, Spinner, Stack } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Authenticate } from './components/Autheticate/Authenticate'
@@ -42,7 +41,7 @@ export function App() {
     <>
       {currentSummoner ?
         <Flex justifyContent={'end'} mt={-2} pb={1} color={'cyan.500'} h={'24px'}>
-          {currentSummoner.gameName}
+          {currentSummoner.gameName}{`#`}{currentSummoner.tagLine}
         </Flex> :
         <Flex justifyContent={'end'} mt={-2} pb={1} color={'cyan.500'} h={'24px'}>
           <Spinner color={'cyan.500'} animationDuration={'0.8s'} mr={2} />
