@@ -1,8 +1,8 @@
-import { getCurrentSummoner } from '../services/summoner'
-import { getToken, removeToken, setToken } from './storage'
+import { getCurrentSummoner } from '../services/summoner';
+import { getToken, removeToken, setToken } from './storage';
 
 export async function isValidToken(token: string | null = null) {
-  let isValid: AutenticatePromise;
+  let isValid: Authenticate;
 
   try {
     const currentSummoner = await getCurrentSummoner()

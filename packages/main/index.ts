@@ -1,7 +1,8 @@
 import path from 'path'
-import { init } from './app'
 import dotenv from 'dotenv'
+import { init } from './app'
 import { app, BrowserWindow, ipcMain } from 'electron'
+import { setupAutoUpdater } from './autoUpdate'
 
 dotenv.config({
   path: path.resolve(__dirname, './.env')
@@ -30,6 +31,7 @@ const createWindow = () => {
 
 app.whenReady().then(async () => {
   createWindow()
+  setupAutoUpdater()
   await init()
 
   app.on('activate', () => {
@@ -39,6 +41,11 @@ app.whenReady().then(async () => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()
+})
+
+ipcMain.handle('get-config', async () => {
+  const { getConfig } = await import('./app/services/getConfig/getConfig')
+  return getConfig()
 })
 
 ipcMain.handle('get-ready-check', async (_, isEnable: boolean) => {
@@ -54,6 +61,11 @@ ipcMain.handle('get-champ-select', async (_, type: string, isEnable: boolean) =>
 ipcMain.handle('set-draft-config', async (_, config) => {
   const { setDraftConfig } = await import('./app/services/champSelect/logic')
   setDraftConfig(config)
+})
+
+ipcMain.handle('get-champions-list', async () => {
+  const { getChampionList } = await import('./app/services/getChampionList/getChampionList')
+  return getChampionList()
 })
 
 ipcMain.handle('get-current-summoner', async (_, type: string, isEnable: boolean) => {

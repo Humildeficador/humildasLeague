@@ -1,10 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { Box, Button, Grid, Stack, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
+import { Slide, toast, ToastContainer } from 'react-toastify'
 import { ChampionItem } from './ChampionItem'
 import styles from './ChampionList.module.css'
-import championList from '../../utils/championsList.json'
-import { toast, ToastContainer, Slide } from 'react-toastify'
-import { Box, Button, Flex, Stack, Text } from '@chakra-ui/react'
 
 interface ChampionListProps {
   searchChamp: string
@@ -19,7 +18,9 @@ interface SelectedChampion {
 
 
 export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: ChampionListProps) {
-  const [champions, setChampions] = useState(championList)
+  const [config, setConfig] = useState<Config>()
+  const [championsList, setChampionsList] = useState<ChampionsData[]>([])
+  const [filtredChampions, setFiltredChampions] = useState<ChampionsData[]>([])
   const [selectedChampions, setSelectedChampions] = useState<SelectedChampion>({
     picks: [],
     bans: []
@@ -29,14 +30,21 @@ export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: Champ
     const picks = selectedChampions.picks.map(champ => champ.id)
     const bans = selectedChampions.bans.map(champ => champ.id)
     window.lcuAPI.setDraftConfig({ picks, bans })
+    getConfig()
   }, [])
 
   useEffect(() => {
-    const filtered = championList.filter(champion =>
+    const filtered = championsList.filter(champion =>
       champion.name.replace(/\W/g, '').toLowerCase().includes(searchChamp.toLowerCase())
     )
-    setChampions(filtered)
+    setFiltredChampions(filtered)
   }, [searchChamp])
+
+  async function getConfig() {
+    setConfig(await window.config.getConfig())
+    setChampionsList(await window.config.championsList())
+    setFiltredChampions(await window.config.championsList())
+  }
 
   function handleSelectChamp(name: string, id: number) {
     if (tabSelected === 'picks') {
@@ -145,11 +153,26 @@ export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: Champ
             }
           </Stack>
       }
-      <Flex direction={'column'} gap={2} ml={2} h={400} overflowY={'auto'}>
-        {champions.map(champion => (
-          <ChampionItem key={champion.id} name={champion.name} id={champion.id} getChampionDetails={handleSelectChamp} />
-        ))}
-      </Flex>
+      <Grid 
+        h={400}
+        gap={2}
+        templateColumns={'repeat(5, 1fr)'}
+        overflowY={'auto'}
+        justifyContent={'space-between'}
+      >
+        {filtredChampions.map(champion => (
+          <ChampionItem
+            key={champion.id}
+            name={champion.name}
+            id={champion.id}
+            sprite={champion.sprite}
+            superPotatoMode={config && config.potatoMode}
+            getChampionDetails={handleSelectChamp}
+            tabSelected={tabSelected}
+          />
+        ))
+        }
+      </Grid>
       <ToastContainer
         position="bottom-center"
         autoClose={2000}
@@ -163,7 +186,7 @@ export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: Champ
         pauseOnHover
         theme="dark"
         transition={Slide}
-        toastStyle={{ marginBottom: '-20px'}}
+        toastStyle={{ marginBottom: '-20px' }}
       />
     </Box >
   )

@@ -1,5 +1,4 @@
 import { contextBridge, ipcRenderer } from 'electron'
-import { setDraftConfig } from './app/services/champSelect/logic'
 
 contextBridge.exposeInMainWorld('lcuAPI', {
   autoAccept: async (isEnable: boolean) => {
@@ -19,5 +18,14 @@ contextBridge.exposeInMainWorld('lcuAPI', {
 contextBridge.exposeInMainWorld('authenticate', {
   verify: async (token: string, currentSummoner: { gameName: string, tagLine: string }) => {
     return ipcRenderer.invoke('is-authenticate', token, currentSummoner)
+  }
+})
+
+contextBridge.exposeInMainWorld('config', {
+  getConfig: async () => {
+    return ipcRenderer.invoke('get-config')
+  },
+  championsList: async () => {
+    return ipcRenderer.invoke('get-champions-list')
   }
 })

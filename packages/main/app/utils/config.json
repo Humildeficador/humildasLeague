@@ -1,0 +1,17 @@
+{
+  "description": "Configuration for Humildas League",
+  "draftConfig": {
+    "picks": {
+      "enable": false,
+      "picks": []
+    },
+    "bans": {
+      "enable": false,
+      "bans": []
+    }
+  },
+  "autoAccept": false,
+  "potatoMode": false,
+  "hasImages": false,
+  "version": "15"
+}

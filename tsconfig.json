@@ -6,6 +6,7 @@
     "rootDir": "./",
     "strict": true,
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "types": [
       "node",
       "electron"
@@ -14,5 +15,7 @@
   "include": [
     "**/*.ts"
   ],
-  "exclude": ["./packages/renderer"]
+  "exclude": [
+    "./packages/renderer"
+  ]
 }

@@ -8,24 +8,6 @@ interface JwtUserPayload extends JwtPayload {
   exp: number
 }
 
-
-/* export function authenticate(token: string, currentSummoner: CurrentSummoner) {
-  const { JWT_SECRET } = process.env
-  const nick = `${currentSummoner.gameName}#${currentSummoner.tagLine}`
-  try {
-    const firstDecode = jwt.decode(token) as JwtUserPayload
-    if (!firstDecode.accounts.includes(nick)) throw new UnauthorizedSummoner(`406 ${firstDecode.name}`)
-    const decoded = jwt.verify(token, JWT_SECRET!) as JwtUserPayload
-    return decoded
-  } catch (error) {
-    if (error instanceof jwt.TokenExpiredError || error instanceof jwt.JsonWebTokenError) return false
-    if (error instanceof UnauthorizedSummoner) return error.message
-    return false
-  }
-}
-
-class UnauthorizedSummoner extends Error { }
- */
 export function authenticate(token: string, currentSummoner: CurrentSummoner) {
   const { JWT_SECRET } = process.env
   const nick = `${currentSummoner.gameName}#${currentSummoner.tagLine}`

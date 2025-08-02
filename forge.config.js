@@ -1,15 +1,13 @@
 const { FusesPlugin } = require('@electron-forge/plugin-fuses');
 const { FuseV1Options, FuseVersion } = require('@electron/fuses');
 const { create } = require('domain');
+const { config } = require('dotenv');
 const { win32 } = require('path');
 
 module.exports = {
   packagerConfig: {
     asar: true,
-    name: 'Humildas League',
-    executableName: 'humildas-league',
-    icon: './assets/icon',
-    shortcutName: 'Humildas League',
+    icon: './assets/icon'
   },
   rebuildConfig: {},
   makers: [
@@ -20,10 +18,11 @@ module.exports = {
         authors: 'Humildeficador',
         description: 'A desktop application for managing Humildas League matches.',
         setupIcon: './assets/icon.ico',
-        setupExe: 'HumildasLeagueSetup-2.0.0.exe',
+        setupExe: 'HumildasLeagueSetup-2.1.0.exe',
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
-        shortcutName: 'Humildas League', // <-- aqui está correto
+        shortcutName: 'Humildas League',
+        language: 1046,
         noMsi: true
       },
     },
@@ -38,6 +37,17 @@ module.exports = {
     {
       name: '@electron-forge/maker-rpm',
       config: {},
+    },
+  ],
+  publishers: [
+    {
+      name: '@electron-forge/publisher-github',
+      config: {
+        repository: {
+          owner: 'Humildeficador',
+          name: 'humildasLeague'
+        }
+      }
     },
   ],
   plugins: [

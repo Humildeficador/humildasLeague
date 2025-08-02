@@ -3,10 +3,6 @@ import { useState, type KeyboardEvent } from 'react'
 import { isValidToken } from '../../utils/auth'
 import { setToken } from '../../utils/storage'
 
-/* interface Props {
-  setToken: (token: string) => void
-} */
-
 export function Authenticate(/* { setToken }: Props */) {
   const [invalid, setInvalid] = useState(false)
   const [message, setMessage] = useState<string>('')

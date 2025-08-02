@@ -9,14 +9,44 @@ interface Window {
   }
   authenticate: {
     /* verify: (token: string, currentSummoner: { gameName: string, tagLine: string }) => Promise<string | boolean>, */
-    verify: (token: string, currentSummoner: { gameName: string, tagLine: string }) => Promise<AutenticatePromise>
+    verify: (token: string, currentSummoner: { gameName: string, tagLine: string }) => Promise<Authenticate>
+  },
+  config: {
+    championsList: () => Promise<ChampionsData[]>,
+    getConfig: () => Promise<Config>
   }
 }
 
-interface AutenticatePromise {
+
+
+interface Authenticate {
   code: number,
   error?: string,
   message?: string,
   name?: string,
   accounts?: string[]
+}
+
+interface ChampionsData {
+  name: string,
+  id: number,
+  sprite: string
+}
+
+interface Config {
+  description: string,
+  draftConfig: {
+    picks: {
+      enable: boolean,
+      picks: number[]
+    },
+    bans: {
+      enable: boolean,
+      bans: number[]
+    }
+  },
+  autoAccept: boolean,
+  potatoMode: boolean,
+  hasImages: boolean,
+  version: string
 }
