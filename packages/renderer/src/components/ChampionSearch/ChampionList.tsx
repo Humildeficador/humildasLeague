@@ -1,9 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Box, Button, Grid, Stack, Text } from '@chakra-ui/react'
+import { Box, Button, Flex, Grid, Stack, Text } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import { Slide, toast, ToastContainer } from 'react-toastify'
 import { ChampionItem } from './ChampionItem'
 import styles from './ChampionList.module.css'
+import { FaCheck, FaTimes } from 'react-icons/fa'
 
 interface ChampionListProps {
   searchChamp: string
@@ -18,7 +19,6 @@ interface SelectedChampion {
 
 
 export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: ChampionListProps) {
-  const [config, setConfig] = useState<Config>()
   const [championsList, setChampionsList] = useState<ChampionsData[]>([])
   const [filtredChampions, setFiltredChampions] = useState<ChampionsData[]>([])
   const [selectedChampions, setSelectedChampions] = useState<SelectedChampion>({
@@ -41,9 +41,8 @@ export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: Champ
   }, [searchChamp])
 
   async function getConfig() {
-    setConfig(await window.config.getConfig())
-    setChampionsList(await window.config.championsList())
-    setFiltredChampions(await window.config.championsList())
+    setChampionsList(await window.champions.getList())
+    setFiltredChampions(await window.champions.getList())
   }
 
   function handleSelectChamp(name: string, id: number) {
@@ -88,6 +87,15 @@ export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: Champ
     notify()
   }
 
+  function handleResetDraft() {
+    setSelectedChampions({
+      picks: [],
+      bans: []
+    })
+
+    window.lcuAPI.setDraftConfig({ picks: [], bans: [] })
+  }
+
 
   const notify = () => toast('Lista Atualizada!', {
     position: "bottom-center",
@@ -103,9 +111,14 @@ export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: Champ
 
   return (
     <Box w={500}>
-      <Button position={'absolute'} zIndex={2} bottom={0} left={-230} w={148} onClick={handleSubmitDraftConfig}>
-        Confirmar Draft
-      </Button>
+      <Flex position={'absolute'} zIndex={2} bottom={0} left={-230} w={148} justifyContent={'space-between'} >
+        <Button onClick={handleSubmitDraftConfig} w={'2/5'} background={'cyan.500'} _hover={{ background: 'cyan.600' }}>
+          <FaCheck />
+        </Button>
+        <Button onClick={handleResetDraft} w={'2/5'} background={'orange.600'} _hover={{ background: 'orange.700' }}>
+          <FaTimes />
+        </Button>
+      </Flex>
       {
         tabSelected === 'picks' ?
           <Stack position={'absolute'} top={200} left={-230} zIndex={1} w={148} border={'2px solid'} borderColor={'cyan.700'} borderRadius={5} p={2}>
@@ -153,26 +166,27 @@ export function ChampionList({ searchChamp, tabSelected, setSearchChamp }: Champ
             }
           </Stack>
       }
-      <Grid 
-        h={400}
-        gap={2}
-        templateColumns={'repeat(5, 1fr)'}
-        overflowY={'auto'}
-        justifyContent={'space-between'}
-      >
-        {filtredChampions.map(champion => (
-          <ChampionItem
-            key={champion.id}
-            name={champion.name}
-            id={champion.id}
-            sprite={champion.sprite}
-            superPotatoMode={config && config.potatoMode}
-            getChampionDetails={handleSelectChamp}
-            tabSelected={tabSelected}
-          />
-        ))
-        }
-      </Grid>
+      <Box h={400}>
+        <Grid
+          maxH={400}
+          gap={2}
+          templateColumns={'repeat(5, 1fr)'}
+          overflowY={'auto'}
+          justifyContent={'space-between'}
+        >
+          {filtredChampions.map(champion => (
+            <ChampionItem
+              key={champion.id}
+              name={champion.name}
+              id={champion.id}
+              sprite={champion.sprite}
+              getChampionDetails={handleSelectChamp}
+              tabSelected={tabSelected}
+            />
+          ))
+          }
+        </Grid>
+      </Box>
       <ToastContainer
         position="bottom-center"
         autoClose={2000}

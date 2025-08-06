@@ -2,7 +2,9 @@ import path from 'path'
 import dotenv from 'dotenv'
 import { init } from './app'
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { setupAutoUpdater } from './autoUpdate'
+import { updateElectronApp } from 'update-electron-app'
+
+if (require('electron-squirrel-startup')) app.quit()
 
 dotenv.config({
   path: path.resolve(__dirname, './.env')
@@ -31,7 +33,7 @@ const createWindow = () => {
 
 app.whenReady().then(async () => {
   createWindow()
-  setupAutoUpdater()
+  updateElectronApp()
   await init()
 
   app.on('activate', () => {
@@ -63,7 +65,7 @@ ipcMain.handle('set-draft-config', async (_, config) => {
   setDraftConfig(config)
 })
 
-ipcMain.handle('get-champions-list', async () => {
+ipcMain.handle('get-list', async () => {
   const { getChampionList } = await import('./app/services/getChampionList/getChampionList')
   return getChampionList()
 })

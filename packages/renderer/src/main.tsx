@@ -4,13 +4,19 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { Provider } from './components/ui/provider.tsx'
 import { Code, Container, Link } from '@chakra-ui/react'
+import { ConfigProvider } from './context/ConfigContext.tsx'
+import { DraftProvider } from './context/DraftContext.tsx'
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider>
       <Container>
-        <App />
+        <ConfigProvider>
+          <DraftProvider>
+            <App />
+          </DraftProvider>
+        </ConfigProvider>
       </Container>
       <Code pos={'absolute'} left={1} bottom={1}>{import.meta.env.VITE_VERSION}</Code>
       <Code

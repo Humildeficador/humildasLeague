@@ -1,21 +1,22 @@
 import React from 'react'
 // import styles from './ChampionItem.module.css'
 import { GridItem, Image, Text } from '@chakra-ui/react'
+import { useConfig } from '../../context/ConfigContext'
 
 interface Props {
   name: string
   id: number
   sprite: string
-  superPotatoMode?: boolean
+  // superPotatoMode?: boolean | null
   tabSelected: string
   getChampionDetails: (name: string, id: number) => void
 }
 
 export const ChampionItem = React.memo((
-  { name, id, sprite, getChampionDetails, superPotatoMode = true, tabSelected }: Props
+  { name, id, sprite, getChampionDetails, tabSelected }: Props
 ) => {
 
-console.log(tabSelected)
+  const { config } = useConfig()
 
   return (
     <GridItem
@@ -30,7 +31,7 @@ console.log(tabSelected)
       alignItems={'center'}
     >
       {
-        !superPotatoMode &&
+        config && !config.potatoMode &&
         <Image
           alt={name}
           w={'70%'}

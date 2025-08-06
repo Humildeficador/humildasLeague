@@ -8,16 +8,15 @@ interface Window {
     setDraftConfig: (config: { picks: number[], bans: number[] }) => Promise<void>
   }
   authenticate: {
-    /* verify: (token: string, currentSummoner: { gameName: string, tagLine: string }) => Promise<string | boolean>, */
     verify: (token: string, currentSummoner: { gameName: string, tagLine: string }) => Promise<Authenticate>
   },
   config: {
-    championsList: () => Promise<ChampionsData[]>,
     getConfig: () => Promise<Config>
   }
+  champions: {
+    getList: () => Promise<ChampionsData[]>,
+  }
 }
-
-
 
 interface Authenticate {
   code: number,

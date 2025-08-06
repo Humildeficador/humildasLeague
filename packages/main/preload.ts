@@ -24,8 +24,11 @@ contextBridge.exposeInMainWorld('authenticate', {
 contextBridge.exposeInMainWorld('config', {
   getConfig: async () => {
     return ipcRenderer.invoke('get-config')
-  },
-  championsList: async () => {
-    return ipcRenderer.invoke('get-champions-list')
+  }
+})
+
+contextBridge.exposeInMainWorld('champions', {
+  getList: async () => {
+    return ipcRenderer.invoke('get-list')
   }
 })
