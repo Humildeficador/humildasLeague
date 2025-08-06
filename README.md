@@ -154,7 +154,7 @@ win.loadFile(path.join(__dirname, '../../renderer/index.html'))
 
 ### Gerenado o Instalador
 
-Após os ajudes, configure o `package.json` e o `forge.config.json` conforme desejado ke execute
+Após os ajudes, configure o `package.json` e o `forge.config.json` conforme desejado e execute
 
 ```bash
 npm run forge:make
