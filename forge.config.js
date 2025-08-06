@@ -18,7 +18,7 @@ module.exports = {
         authors: 'Humildeficador',
         description: 'A desktop application for managing Humildas League matches.',
         setupIcon: './assets/icon.ico',
-        setupExe: 'HumildasLeagueSetup-2.0.0.exe',
+        setupExe: 'HumildasLeagueSetup-2.2.0.exe',
         createDesktopShortcut: true,
         createStartMenuShortcut: true,
         shortcutName: 'Humildas League',
