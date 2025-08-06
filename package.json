@@ -10,7 +10,7 @@
     "dev:main": "tsc --watch",
     "dev:renderer": "vite ./packages/renderer --host  --config packages/renderer/vite.config.ts",
     "dev:electron": "wait-on http://localhost:5173 && electron .",
-    "start": "electron-forge start",
+    "start": "cross-env NODE_ENV=production electron-forge start",
     "build": "npm run build:main && npm run build:renderer",
     "build:main": "tsc",
     "build:renderer": "vite build ./packages/renderer --config packages/renderer/vite.config.ts",
