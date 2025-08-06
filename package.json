@@ -1,5 +1,6 @@
 {
   "name": "humildasleague",
+  "productName": "Humildas League",
   "version": "2.2.0",
   "description": "Automatização de tarefas para o League of Legends",
   "main": "./dist/packages/main/index.js",
