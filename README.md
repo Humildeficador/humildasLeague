@@ -50,13 +50,13 @@ O stack utilizado é:
 Se você quiser rodar o projeto localmente ou compilar sua própria versão, aqui vai um passo a passo:
 
 ```bash
-#Clone o repositório
+# Clone o repositório
 
 git clone https://github.com/Humildeficador/humildasLeague.git
 cd humildasLeague
 
 
-#Instale as dependências
+# Instale as dependências
 npm install
 ```
 
