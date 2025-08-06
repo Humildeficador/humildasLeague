@@ -55,7 +55,6 @@ Se você quiser rodar o projeto localmente ou compilar sua própria versão, aqu
 git clone https://github.com/Humildeficador/humildasLeague.git
 cd humildasLeague
 
-
 # Instale as dependências
 npm install
 ```
