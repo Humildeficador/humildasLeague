@@ -15,12 +15,6 @@ contextBridge.exposeInMainWorld('lcuAPI', {
   }
 })
 
-contextBridge.exposeInMainWorld('authenticate', {
-  verify: async (token: string, currentSummoner: { gameName: string, tagLine: string }) => {
-    return ipcRenderer.invoke('is-authenticate', token, currentSummoner)
-  }
-})
-
 contextBridge.exposeInMainWorld('config', {
   getConfig: async () => {
     return ipcRenderer.invoke('get-config')

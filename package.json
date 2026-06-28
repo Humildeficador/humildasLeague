@@ -1,7 +1,7 @@
 {
   "name": "humildasleague",
   "productName": "Humildas League",
-  "version": "2.2.0",
+  "version": "2.5.0",
   "description": "Automatização de tarefas para o League of Legends",
   "main": "./dist/packages/main/index.js",
   "author": "Humildeficador",
@@ -16,8 +16,7 @@
     "build:renderer": "vite build ./packages/renderer --config packages/renderer/vite.config.ts",
     "forge:start": "electron-forge start",
     "forge:package": "electron-forge package",
-    "forge:make": "npm run update:setupExe && electron-forge make",
-    "update:setupExe": "node update-setupExe.js"
+    "forge:make": "electron-forge make"
   },
   "keywords": [],
   "license": "MIT",
@@ -36,11 +35,12 @@
     "@types/semver": "^7.7.0",
     "concurrently": "^9.2.0",
     "cross-env": "^10.0.0",
-    "electron": "^37.2.4",
+    "electron": "37.10.3",
     "electronmon": "^2.0.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
-    "wait-on": "^8.0.4"
+    "wait-on": "^8.0.4",
+    "vite": "^8.1.0"
   },
   "dependencies": {
     "dotenv": "^17.2.1",
@@ -53,6 +53,9 @@
   "build": {
     "appId": "com.humildeficador.humildasleague"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/Humildeficador/humildasLeague.git"

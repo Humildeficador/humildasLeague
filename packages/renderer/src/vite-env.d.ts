@@ -45,7 +45,6 @@ interface Config {
     }
   },
   autoAccept: boolean,
-  potatoMode: boolean,
   hasImages: boolean,
   version: string
 }

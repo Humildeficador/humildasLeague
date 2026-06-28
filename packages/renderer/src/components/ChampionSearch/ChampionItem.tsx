@@ -1,13 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import styles from './ChampionItem.module.css'
-import { GridItem, Image, Text } from '@chakra-ui/react'
-import { useConfig } from '../../context/ConfigContext'
+import { GridItem, Image, Spinner, Text } from '@chakra-ui/react'
 
 interface Props {
   name: string
   id: number
   sprite: string
-  // superPotatoMode?: boolean | null
   tabSelected: string
   getChampionDetails: (name: string, id: number) => void
 }
@@ -15,8 +13,7 @@ interface Props {
 export const ChampionItem = React.memo((
   { name, id, sprite, getChampionDetails, tabSelected }: Props
 ) => {
-
-  const { config } = useConfig()
+  const [isLoaded, setIsLoaded] = useState(false)
 
   return (
     <GridItem
@@ -30,14 +27,15 @@ export const ChampionItem = React.memo((
       justifyContent={'center'}
       alignItems={'center'}
     >
-      {
-        config && !config.potatoMode &&
         <Image
           alt={name}
           w={'70%'}
-          src={`./championsIcon/${sprite}`}
+          src={`local://${sprite}`}
+          onLoad={() => setIsLoaded(true)}
+          opacity={isLoaded ? 1 : 0}
+          transition="opacity 0.2s" // Fica suave
         />
-      }
+        {!isLoaded && <Spinner size="xs" color="gray.500" />}
       <Text fontSize={12} color={tabSelected === 'picks' ? 'cyan.600': 'orange.600'}>
         {name}
       </Text>

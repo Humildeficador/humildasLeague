@@ -24,12 +24,6 @@ Quase um `man-in-the-middle`
 
 Todos os download estão nas releases junto com seu patch notes.
 
-## Acesso
-
-Atualmente o app necessita de uma key de acesso, porém se você tiver conhecimento o suficiente pode compilar ele (já que é open-source) e usa-lo.
-
-Para conseguir uma key você pode entrar em contato comigo no Discord (Humildeficador).
-
 ## Desenvolvimento
 
 O app é desenvolvido usando o [Electron](https://github.com/electron/electron) como framework principal, permitindo criar uma aplicação desktop utilizando tecnologias web.
@@ -59,60 +53,6 @@ cd humildasLeague
 npm install
 ```
 
-### Pré-Ajuste Necessários
-
-Antes de iniciar o projeto, você precisará realizar algumas modificações no código para desabilitar a autenticação via IPC (caso não tenha uma key de acesso).
-
-#### 1. **Editar o App.tsx para remover a renderização condicional.**
-
-Arquivo `packages/renderer/src/App.tsx`
-
-```tsx
-return (
-    <>
-      {currentSummoner ?
-        <Flex justifyContent={'end'} mt={-2} pb={1} color={'cyan.500'} h={'24px'}>
-          {currentSummoner.gameName}{`#`}{currentSummoner.tagLine}
-        </Flex> :
-        <Flex justifyContent={'end'} mt={-2} pb={1} color={'cyan.500'} h={'24px'}>
-          <Spinner color={'cyan.500'} animationDuration={'0.8s'} mr={2} />
-        </Flex>
-      }
-      <Flex justifyContent={'space-between'}>
-        <div>
-          <Stack w={'150px'} maxW={'220px'}>
-            <EnablePlugin type='accept' />
-            <EnablePlugin type='pick' />
-            <EnablePlugin type='ban' />
-          </Stack>
-        </div>
-        <ChampionSearch />
-      </Flex>
-    </>
-  )
-```
-
-#### 2. **Remover o IPC is-authenticate.**
-
-- **Arquivo:** `packages/main/index.ts`
-
-```ts
-ipcMain.handle('is-authenticate', async (_, token: string, currentSummoner) => {
-  const { authenticate } = await import('./app/authenticate/authenticate')
-  return authenticate(token, currentSummoner)
-})
-```
-
-- **Arquivo:** `packages/main/preload.ts`
-
-```ts
-contextBridge.exposeInMainWorld('authenticate', {
-  verify: async (token: string, currentSummoner: { gameName: string, tagLine: string }) => {
-    return ipcRenderer.invoke('is-authenticate', token, currentSummoner)
-  }
-})
-```
-
 ### Rodando a aplicação
 
 Para iniciar a aplicação em modo de desenvolvimento ou produção
@@ -130,7 +70,6 @@ npm run start
 Antes de rodar o make, você precisará ajustar o arquivo principal do Electron para garantir que ele sempre carregue o HTML empacotado:
 
 #### 1. **Editar o arquivo dist/packages/main/app/index.js**
-
 
 Substitua o seguinte bloco:
 
